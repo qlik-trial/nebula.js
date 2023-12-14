@@ -1,0 +1,23 @@
+{
+  "_inherit": false,
+  "_variables" : {
+    "@greenColor" : "#61a729",
+    "@text": "#4c4c4c"
+  },
+  "color": "@text",
+  "fontSize": "12px",
+  "object" : {
+    "title": {
+      "main": {
+        "fontSize" : "16px"
+      }
+    }
+  },
+  "dataColors": {
+    "primaryColor": "@greenColor"
+  },
+  "customStyles": [{
+    "cssRef": "css/tarallo.css",
+    "classRef": "tarallo"
+  }]
+}

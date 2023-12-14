@@ -1,3 +1,5 @@
+import defaultInstanceConfig from './default-instance-config';
+
 (async () => {
   function getMocks(options) {
     const { getMockData, getListboxLayout } = window.getFuncs();
@@ -33,6 +35,15 @@
       element.style.height = options.fixtureFile.customRenderTestElementSize.height;
     }
     const { app } = getMocks(options);
+
+    window.stardust.embed.createConfiguration({
+      ...defaultInstanceConfig,
+      context: {
+        ...(defaultInstanceConfig?.config || {}),
+        ...(options.fixtureFile?.instanceConfig?.context || {}),
+      },
+    });
+
     const nebbie = window.stardust.embed(app);
     const listboxOptions = {
       ...options,

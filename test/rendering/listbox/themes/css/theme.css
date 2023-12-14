@@ -1,0 +1,20 @@
+@font-face {
+    font-family            : "Poppins Light";
+    src                    : url("Poppins-Light.ttf") format("truetype");
+    font-weight            : normal;
+    font-style             : normal;
+}
+
+.qv-chart-component{
+    font-family            : "Poppins Light"!important;
+    font-size              :  12px!important;
+}
+ 
+
+
+.qv-object .qv-inner-object{
+    background              : rgba(38, 20, 66, 0.4)!important;
+    font-family            : "Poppins Light"!important;
+    font-weight            : normal!important;
+    font-style             : normal!important;
+}
