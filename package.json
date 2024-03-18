@@ -23,7 +23,8 @@
     "test:rendering": "playwright test --config=./test/rendering/playwright.config.rendering.js --quiet",
     "test:integration": "aw puppet -c aw.config.js --testExt '*.int.js' --glob 'test/integration/**/*.int.js'",
     "test:component": "aw puppet -c aw.config.js --testExt '*.comp.js' --glob 'test/component/**/*.comp.js'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "node tools/install-themes.js"
   },
   "repository": {
     "type": "git",
