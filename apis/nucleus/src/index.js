@@ -12,7 +12,7 @@ import ListBoxPopoverWrapper, {
 } from './components/listbox/ListBoxPopoverWrapper';
 
 import createSessionObject from './object/create-session-object';
-import createObject from './object/create-object';
+import createObject, { createFullPropertyTree } from './object/create-object';
 import get from './object/get-generic-object';
 import flagsFn from './flags/flags';
 import { create as typesFn } from './sn/types';
@@ -353,6 +353,21 @@ function nuked(configuration = {}) {
        * );
        */
       generateProperties: async (cfg) => createObject(cfg, halo, true),
+      /**
+       * Generates full property tree for a visualization, including its children.
+       * Note that this does not support passing in fields
+       * @param {EngineAPI.IGenericObjectEntry} properties The properties for the property tree??
+       * @experimental
+       * @returns {Promise<EngineAPI.IGenericObjectEntry>} The objects full property tree
+       * @example
+       * // generate properties for a layout container
+       * const properties = await n.generateProperties({
+       *     qProperties: { components: [...]},
+       *     qChildren: [...]
+       *   },
+       * );
+       */
+      generateFullPropertyTree: async (cfg) => createFullPropertyTree(cfg, halo),
       /**
        * Updates the current context of this embed instance.
        * Use this when you want to change some part of the current context, like theme.

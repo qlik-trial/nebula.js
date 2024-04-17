@@ -69,3 +69,29 @@ export default async function createObject(
   }
   return mergedProps;
 }
+
+export async function createFullPropertyTree(properties, halo) {
+  const createObjectFromTreeNode = async (props) =>
+    createObject(
+      { type: props.qProperty.visualization, properties: props.qProperty, extendProperties: true },
+      halo,
+      true
+    );
+  const createChildrenProperties = async (qChildren) =>
+    Promise.all(
+      qChildren.map(async (child) => ({
+        // ...child,
+        qProperty: await createObjectFromTreeNode(child),
+        qChildren: await createChildrenProperties(child.qChildren),
+      }))
+    );
+
+  const qProperty = await createObjectFromTreeNode(properties);
+  const qChildren = await createChildrenProperties(properties.qChildren);
+
+  return {
+    // ...properties
+    qProperty,
+    qChildren,
+  };
+}
