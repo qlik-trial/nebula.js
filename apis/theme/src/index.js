@@ -1,12 +1,10 @@
+import { createColor, getLuminance } from 'qlik-chart-modules';
 import EventEmitter from 'node-event-emitter';
-import { color as d3color } from 'd3-color';
 
 import setTheme from './set-theme';
 import paletteResolverFn from './palette-resolver';
 import styleResolverFn from './style-resolver';
-import contrasterFn from './contraster/contraster';
-import luminance from './contraster/luminance';
-import Color from './utils/color/color';
+import contrasterFn from './contraster';
 
 export default function theme() {
   let resolvedThemeJSON;
@@ -114,10 +112,7 @@ export default function theme() {
       return styleResolverInstanceCache[basePath].getStyle(path, attribute);
     },
     /**
-     * Validates a color string using d3-color.
-     * See https://www.npmjs.com/package/d3-color
-     * Additionally supports the non-standard engine
-     * format ARGB(0-255,0-255,0-255,0-255)
+     * Validates a color string, including support for non-standard color format ARGB(0-255,0-255,0-255,0-255).
      * @param {string} specifier
      * @returns {string|undefined} The resolved color or undefined
      * @ignore
@@ -129,25 +124,12 @@ export default function theme() {
      * theme.validateColor("FOO"); // returns undefined
      */
     validateColor(...args) {
-      /* Added this to support the non-standard ARGB format from engine */
-      const colorString = args[0];
-      let matches;
-      /* eslint-disable no-cond-assign */
-      if (
-        typeof colorString === 'string' &&
-        (matches = /^ARGB\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i.exec(colorString))
-      ) {
-        // ARGB(255,255,255,255)
-        const a = parseInt(matches[1], 10) / 255;
-        const r = parseInt(matches[2], 10);
-        const g = parseInt(matches[3], 10);
-        const b = parseInt(matches[4], 10);
-        return `rgba(${r},${g},${b},${a})`;
+      const c = createColor(...args);
+      if (c.isInvalid()) {
+        return undefined;
       }
-      /* eslint-enable no-cond-assign */
 
-      const c = d3color(...args);
-      return c ? c.toString() : undefined;
+      return c.getAlpha() === 1 ? c.getRGB() : c.getRGBA();
     },
   };
 
@@ -164,7 +146,7 @@ export default function theme() {
 
       // try to determine if the theme color is light or dark
       const textColor = externalAPI.getStyle('', '', 'color');
-      const textColorLuminance = luminance(textColor);
+      const textColorLuminance = getLuminance(textColor);
       // if it appears dark, create an inverse that is light and vice versa
       const inverseTextColor = textColorLuminance < 0.2 ? '#ffffff' : '#333333';
       // instantiate a contraster that uses those two colors when determining the best contrast for an arbitrary color
@@ -187,5 +169,3 @@ export default function theme() {
     internalAPI,
   };
 }
-
-export { Color };

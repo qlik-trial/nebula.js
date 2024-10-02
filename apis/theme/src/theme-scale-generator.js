@@ -1,4 +1,4 @@
-import { color } from 'd3-color';
+import { createColor } from 'qlik-chart-modules';
 import ColorScale from './color-scale';
 
 /* Calculates a value that expands from 0.5 out to 0 and 1
@@ -59,7 +59,7 @@ function generateLevel(scale, current, size) {
         break;
       }
     }
-    level.push(color(c).formatHex());
+    level.push(createColor(c).getHex());
   }
   return level;
 }

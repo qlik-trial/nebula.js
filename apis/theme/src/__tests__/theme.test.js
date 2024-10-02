@@ -1,9 +1,9 @@
 import * as EventEmitter from 'node-event-emitter';
+import * as chartModules from 'qlik-chart-modules';
 import * as setThemeModule from '../set-theme';
 import * as paletterResolverFnModule from '../palette-resolver';
 import * as styleResolverFnModule from '../style-resolver';
-import * as contrasterFnModule from '../contraster/contraster';
-import * as luminanceFnModule from '../contraster/luminance';
+import * as contrasterFnModule from '../contraster';
 import create from '../index';
 
 jest.mock('node-event-emitter');
@@ -32,7 +32,7 @@ describe('theme', () => {
     jest.spyOn(styleResolverFnModule, 'default').mockImplementation(styleResolverFnMock);
     styleResolverFnMock.resolveRawTheme = 'raw';
     jest.spyOn(contrasterFnModule, 'default').mockImplementation(contrasterFnMock);
-    jest.spyOn(luminanceFnModule, 'default').mockImplementation(luminanceFnMock);
+    jest.spyOn(chartModules, 'getLuminance').mockImplementation(luminanceFnMock);
     emitter = {
       prototype: {
         emit: emitterEmitMock,

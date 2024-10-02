@@ -1,4 +1,4 @@
-import { color, rgb } from 'd3-color';
+import { createColor, getBlendedColor } from 'qlik-chart-modules';
 
 /**
  * Gets this mapping between the scaled value and the color parts
@@ -10,7 +10,7 @@ function limitFunction(scaledValue, numParts) {
   /*
    *	Color-Scale doesn't calculate exact color blends based of the scaled value. It instead shifts the value inwards to achieve
    *	a better color representation at the edges. Primarily this is done to allow setting custom limits to where each color begins
-   *	and ends. If a color begins and ends at 1, it should not be visible. The simplest way to achive this is to remove 1 and 0
+   *	and ends. If a color begins and ends at 1, it should not be visible. The simplest way to achieve this is to remove 1 and 0
    *	from the possible numbers that can be used. Colors that are not equal to 1 or 0 should not be affected.
    */
 
@@ -24,21 +24,13 @@ function getLevel(scale, level) {
   return Math.min(level || scale.startLevel, scale.colorParts.length - 1);
 }
 
-function blend(c1, c2, t) {
-  const r = Math.floor(c1.r + (c2.r - c1.r) * t);
-  const g = Math.floor(c1.g + (c2.g - c1.g) * t);
-  const b = Math.floor(c1.b + (c2.b - c1.b) * t);
-  const a = Math.floor(c1.opacity + (c2.opacity - c1.opacity) * t);
-  return rgb(r, g, b, a);
-}
-
 class ColorScale {
   constructor(nanColor) {
     this.colorParts = [];
     this.startLevel = 0;
     this.max = 1;
     this.min = 0;
-    this.nanColor = color(nanColor);
+    this.nanColor = createColor(nanColor);
   }
 
   /**
@@ -55,7 +47,7 @@ class ColorScale {
     if (!this.colorParts[level]) {
       this.colorParts[level] = [];
     }
-    this.colorParts[level].push([color(color1), color(color2)]);
+    this.colorParts[level].push([createColor(color1), createColor(color2)]);
   }
 
   /**
@@ -86,7 +78,7 @@ class ColorScale {
     }
 
     const t = k - f;
-    const uc = blend(c1, c2, t);
+    const uc = getBlendedColor(c1, c2, t);
     return uc;
   }
 }

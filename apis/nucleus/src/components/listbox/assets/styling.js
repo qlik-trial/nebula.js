@@ -1,11 +1,5 @@
-import { Color } from '@nebula.js/theme';
+import { createColor, getContrastingColor } from 'qlik-chart-modules';
 import { resolveBgColor, resolveBgImage } from '../../../utils/style/styling-props';
-
-const LIGHT = '#FFF';
-const DARK = '#000';
-
-export const CONTRAST_THRESHOLD = 1.5;
-const LIGHT_PREFERRED_THRESHOLD = 3;
 
 export const DEFAULT_SELECTION_COLORS = {
   selected: '#00873D',
@@ -14,46 +8,6 @@ export const DEFAULT_SELECTION_COLORS = {
   selectedExcluded: '#A9A9A9',
   possible: '#FFFFFF',
 };
-
-export const getContrast = (desired, background) => {
-  let contrast = false;
-
-  const des = new Color(desired);
-  const bg = new Color(background);
-
-  if (bg.isInvalid() || des.isInvalid() || bg.getAlpha() < 1 || des.getAlpha() < 1) {
-    return undefined;
-  }
-
-  try {
-    contrast = Color.getContrast(des, bg);
-  } catch (err) {
-    contrast = undefined;
-  }
-  return contrast;
-};
-
-export function getContrastingColor(backgroundColor, desiredTextColor = undefined, dark = DARK, light = LIGHT) {
-  const lightColor = new Color(light);
-  const bg = new Color(backgroundColor);
-  const des = new Color(desiredTextColor);
-  if (bg.isInvalid() || des.isInvalid() || bg.getAlpha() < 1 || des.getAlpha() < 1) {
-    return desiredTextColor;
-  }
-
-  // Always prioritise light color if it gives better contrast than desired color's.
-  const lightColorContrast = getContrast(lightColor, bg);
-  const desiredColorContrast = getContrast(des, bg);
-  const useLightColor = lightColorContrast > desiredColorContrast || lightColorContrast > LIGHT_PREFERRED_THRESHOLD;
-
-  let contrastingColor;
-  if (desiredTextColor && desiredColorContrast > CONTRAST_THRESHOLD && !useLightColor) {
-    contrastingColor = desiredTextColor;
-  } else {
-    contrastingColor = useLightColor ? light : dark;
-  }
-  return contrastingColor;
-}
 
 const SUPPORTED_COMPONENTS = ['theme', 'selections'];
 
@@ -141,9 +95,9 @@ function getSearchColor(getListboxStyle) {
 }
 
 function getSearchBGColor(bgCol, getListboxStyle) {
-  const searchBgColorObj = new Color(getListboxStyle('', 'backgroundColor'));
+  const searchBgColorObj = createColor(getListboxStyle('', 'backgroundColor'));
   searchBgColorObj.setAlpha(0.7);
-  return searchBgColorObj.isInvalid() ? bgCol : searchBgColorObj.toRGBA();
+  return searchBgColorObj.isInvalid() ? bgCol : searchBgColorObj.getRGBA();
 }
 
 export default function getStyles({

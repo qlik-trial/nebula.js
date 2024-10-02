@@ -1,4 +1,4 @@
-import Color from './utils/color/color';
+import { createColor } from 'qlik-chart-modules';
 
 /**
  * @interface Theme~ScalePalette
@@ -105,12 +105,12 @@ export default function theme(resolvedTheme) {
       if (c.alpha === undefined || c.alpha >= 1 || c.alpha < 0) {
         return color;
       }
-      const rgbaColor = new Color(color);
+      const rgbaColor = createColor(color);
       rgbaColor.setAlpha(c.alpha);
       if (rgbaColor.isInvalid()) {
         return color;
       }
-      return rgbaColor.toRGBA();
+      return rgbaColor.getRGBA();
     },
   };
 }

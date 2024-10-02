@@ -1,6 +1,5 @@
+import * as chartModules from 'qlik-chart-modules';
 import create from '../contraster';
-import * as luminanceModule from '../luminance';
-import * as contrastModule from '../contrast';
 
 describe('contraster', () => {
   let luminanceMock;
@@ -10,8 +9,8 @@ describe('contraster', () => {
     luminanceMock = jest.fn();
     contrastMock = jest.fn();
 
-    jest.spyOn(luminanceModule, 'default').mockImplementation(luminanceMock);
-    jest.spyOn(contrastModule, 'default').mockImplementation(contrastMock);
+    jest.spyOn(chartModules, 'getLuminance').mockImplementation(luminanceMock);
+    jest.spyOn(chartModules, 'getContrastRatio').mockImplementation(contrastMock);
   });
 
   afterEach(() => {

@@ -62,7 +62,7 @@ describe('Styling property resolver', () => {
       jest.spyOn(resolveColor, 'default').mockReturnValue('resolvedColor');
       const color = resolveBgColor(bgCompLayout, t);
       expect(resolveColor.default).toHaveBeenCalledTimes(0);
-      expect(color).toBe('rgb(255, 0, 0)');
+      expect(color).toBe('rgb(255,0,0)');
     });
 
     test('should resolve background color by picker', () => {
@@ -87,7 +87,7 @@ describe('Styling property resolver', () => {
 
       const color = resolveBgColor(bgCompLayout, t);
       expect(resolveColor.default).toHaveBeenCalledTimes(0);
-      expect(color).toBe('rgb(255, 0, 0)');
+      expect(color).toBe('rgb(255,0,0)');
     });
 
     test('should resolve background color by theme', () => {
