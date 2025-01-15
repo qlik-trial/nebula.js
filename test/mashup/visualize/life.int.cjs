@@ -20,6 +20,10 @@ describe('object lifecycle', () => {
       '[data-tid="error-title"]',
       "Could not find a version of 'voooz' that supports current object version. Did you forget to register voooz?"
     );
+    await waitForTextStatus(
+      '[data-tid="error-external"]',
+      "Could not find a version of 'voooz' that supports current object version. Did you forget to register voooz?"
+    );
   });
 
   it('should show spinner and requirements for known type', async () => {

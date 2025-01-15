@@ -42,7 +42,6 @@ export default function ListBoxPopover({
   components,
   checkboxes: checkboxesOption,
   selectDisabled = () => false,
-  flags,
   sortCriteria = [
     {
       qSortByState: 1,
@@ -102,8 +101,7 @@ export default function ListBoxPopover({
   const keyboard = useTempKeyboard({ containerRef, enabled: keyboardNavigation });
   const { checkboxes = checkboxesOption } = layout || {};
 
-  const themeSelectionColorsEnabled = flags?.isEnabled('PS_22149_THEME_SELECTION_COLORS');
-  const styles = getStyles({ themeApi, theme, components, checkboxes, themeSelectionColorsEnabled });
+  const styles = getStyles({ themeApi, theme, components, checkboxes });
 
   useEffect(() => {
     if (selections && open) {

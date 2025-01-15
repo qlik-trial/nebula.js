@@ -1,13 +1,13 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import * as reactRouterDomModule from 'react-router-dom';
+import * as reactRouterDomModule from 'react-router';
 import { TestRenderer } from '../../../utils';
 import ConnectionSteps from '../ConnectionSteps';
 
 import { steps } from '../../../constants/connectionSteps';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
   useNavigate: jest.fn(),
 }));
 

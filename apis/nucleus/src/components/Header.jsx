@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import { Grid, Typography } from '@mui/material';
+import { Grid, Tooltip, Typography } from '@mui/material';
 import ActionsToolbar from './ActionsToolbar';
 import useRect from '../hooks/useRect';
 
@@ -98,14 +98,18 @@ function Header({ layout, sn, anchorEl, hovering, focusHandler, titleStyles = {}
       <Grid item zeroMinWidth xs>
         <Grid container wrap="nowrap" direction="column">
           {showTitle && (
-            <Typography variant="h6" noWrap className={CellTitle.className} style={titleStyles.main}>
-              {layout.title}
-            </Typography>
+            <Tooltip title={layout.title}>
+              <Typography variant="h6" noWrap className={CellTitle.className} style={titleStyles.main}>
+                {layout.title}
+              </Typography>
+            </Tooltip>
           )}
           {showSubtitle && (
-            <Typography variant="body2" noWrap className={CellSubTitle.className} style={titleStyles.subTitle}>
-              {layout.subtitle}
-            </Typography>
+            <Tooltip title={layout.subtitle}>
+              <Typography variant="body2" noWrap className={CellSubTitle.className} style={titleStyles.subTitle}>
+                {layout.subtitle}
+              </Typography>
+            </Tooltip>
           )}
         </Grid>
       </Grid>

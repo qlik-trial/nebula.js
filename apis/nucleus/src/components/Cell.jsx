@@ -17,6 +17,7 @@ import InstanceContext from '../contexts/InstanceContext';
 import useObjectSelections from '../hooks/useObjectSelections';
 import eventmixin from '../selections/event-mixin';
 import useStyling from '../hooks/useStyling';
+import RenderError from '../utils/render-error';
 
 /**
  * @interface
@@ -295,7 +296,7 @@ const loadType = async ({
         },
       });
     } else {
-      dispatch({ type: 'ERROR', error: { title: err.message } });
+      dispatch({ type: 'ERROR', error: { title: err.message, errorObject: err } });
     }
     onMount();
   }
@@ -313,6 +314,7 @@ const Cell = forwardRef(
       currentId,
       emitter,
       navigation,
+      onError,
     },
     ref
   ) => {
@@ -517,6 +519,10 @@ const Cell = forwardRef(
     if (state.loading && !state.longRunningQuery) {
       Content = <LoadingSn />;
     } else if (state.error) {
+      if (onError) {
+        const e = state.error.errorObject ? state.error.errorObject : new RenderError(state.error.title);
+        onError(e);
+      }
       Content = <CError {...state.error} />;
     } else if (state.loaded) {
       Content = (

@@ -1,8 +1,9 @@
 import { color } from 'd3-color';
 
 export default function luminance(colStr) {
-  const c = color(colStr).rgb();
-  const { r, g, b } = c;
+  const c = color(colStr); // this needs to handle bad colors
+  if (!c) return 0;
+  const { r, g, b } = c.rgb();
 
   // https://www.w3.org/TR/WCAG20/#relativeluminancedef
   const [sR, sG, sB] = [r, g, b].map((v) => v / 255);

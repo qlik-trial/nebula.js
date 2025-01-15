@@ -43,7 +43,15 @@ function MoreItem({ item, autoFocus, onActionClick = () => {} }) {
 
 const More = React.forwardRef(
   (
-    { actions = [], show = true, alignTo, popoverProps = {}, popoverPaperStyle = {}, onCloseOrActionClick = () => {} },
+    {
+      actions = [],
+      show = true,
+      alignTo,
+      popoverProps = {},
+      popoverPaperStyle = {},
+      onCloseOrActionClick = () => {},
+      disablePortal = true,
+    },
     ref
   ) => {
     const showActions = actions.length > 0;
@@ -58,9 +66,9 @@ const More = React.forwardRef(
           ref={ref}
           open={show}
           anchorEl={alignTo.current}
-          getContentAnchorEl={null}
-          container={alignTo.current}
-          disablePortal
+          getContentAnchorEl={disablePortal ? null : undefined}
+          container={disablePortal ? alignTo.current : undefined}
+          disablePortal={disablePortal}
           hideBackdrop
           transitionDuration={0}
           slotProps={{

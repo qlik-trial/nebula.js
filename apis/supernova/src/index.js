@@ -18,6 +18,7 @@ export {
   useSelections,
   useTheme,
   useLayout,
+  useRef,
   useStaleLayout,
   useAppLayout,
   useTranslator,

@@ -91,7 +91,6 @@
   if (fixture) {
     fixtureFile = (await import(fixture)).default;
   }
-
   const scenarioOptions = fixtureFile ? fixtureFile.options || {} : getScenarioOptions(scenario);
 
   return init(

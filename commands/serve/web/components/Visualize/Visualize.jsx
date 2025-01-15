@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle:0 */
 import React, { useEffect, useLayoutEffect, useState, useRef, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { embed } from '@nebula.js/stardust';
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@nebula.js/ui/theme';
 import { WbSunny, Brightness3, ColorLens, Language, Home } from '@nebula.js/ui/icons';

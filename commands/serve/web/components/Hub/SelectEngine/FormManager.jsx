@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useRootContext } from '../../../contexts/RootContext';
 import { getFieldPlaceHolder, shouldDisableSubmitBtn } from '../../../utils';
 

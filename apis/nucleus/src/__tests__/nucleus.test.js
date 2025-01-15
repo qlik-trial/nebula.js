@@ -116,6 +116,7 @@ describe('nucleus', () => {
 
   test('should initiate types with a public galaxy interface', () => {
     Nuked('app', {
+      hostConfig: 'HOST',
       anything: {
         some: 'thing',
       },
@@ -127,6 +128,7 @@ describe('nucleus', () => {
       },
       flags: 'flags',
       deviceType: 'desktop',
+      hostConfig: 'HOST',
       translator,
     });
   });

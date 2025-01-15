@@ -42,6 +42,16 @@ export function useEffect(effect: stardust.EffectCallback, deps?: any[]): void;
 export function useMemo<T>(factory: ()=>T, deps: any[]): T;
 
 /**
+ * Creates a reference to a value not needed for rendering
+ * 
+ * While Nebula does not have a virtual DOM, it is still useful
+ * to have a reference to an object that is retained across
+ * renders and in it self does not trigger a render.
+ * @param initialValue The initial value.
+ */
+export function useRef<R>(initialValue: R): stardust.Ref<R>;
+
+/**
  * Runs a callback function when a dependent changes.
  * 
  * Useful for async operations that otherwise cause no side effects.
@@ -237,15 +247,17 @@ declare namespace stardust {
         key: string;
     }
 
+    /**
+     * Fallback load function for missing types
+     */
+    type LoadFallback = ($: stardust.LoadType)=>Promise<stardust.Visualization>;
+
     interface Configuration {
-        /**
-         * Fallback load function for missing types
-         * @param $
-         */
-        load($: stardust.LoadType): Promise<stardust.Visualization>;
+        load?: stardust.LoadFallback;
         context?: stardust.Context;
         types?: stardust.TypeInfo[];
         themes?: stardust.ThemeInfo[];
+        hostConfig?: object;
         anything?: object;
     }
 
@@ -264,6 +276,7 @@ declare namespace stardust {
         translator: stardust.Translator;
         flags: stardust.Flags;
         deviceType: string;
+        hostConfig: object;
         anything: object;
     }
 
@@ -561,6 +574,15 @@ declare namespace stardust {
     interface RenderConfig {
         element: HTMLElement;
         options?: object;
+        /**
+         * Callback function called after rendering successfully
+         */
+        onRender?(): void;
+        /**
+         * Callback function called if an error occurs
+         * @param $
+         */
+        onError?($: stardust.RenderError): void;
         plugins?: stardust.Plugin[];
         id?: string;
         type?: string;
@@ -597,6 +619,13 @@ declare namespace stardust {
         version?: string;
         load: stardust.LoadType;
         meta?: object;
+    }
+
+    class RenderError extends Error {
+        constructor(message: string, originalError: Error);
+
+        originalError: Error;
+
     }
 
     class Navigation implements stardust.Emitter {
@@ -675,6 +704,13 @@ declare namespace stardust {
      * For example to remove any listeners added in the callback itself.
      */
     type EffectCallback = ()=>void | (()=>void);
+
+    /**
+     * Reference object returned from useRef
+     */
+    interface Ref<R> {
+        current: R;
+    }
 
     interface Rect {
         top: number;

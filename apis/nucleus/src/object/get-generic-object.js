@@ -2,7 +2,11 @@ import init from './initiate';
 import initSheet from './initiate-sheet';
 import createNavigationApi from './navigation/navigation';
 
-export default async function getObject({ id, options, plugins, element, navigation: inputNavigation }, halo, store) {
+export default async function getObject(
+  { id, options, plugins, element, onRender, onError, navigation: inputNavigation },
+  halo,
+  store
+) {
   const { modelStore, rpcRequestModelStore } = store;
   const key = `${id}`;
   let rpc = rpcRequestModelStore.get(key);
@@ -18,5 +22,5 @@ export default async function getObject({ id, options, plugins, element, navigat
     return initSheet(model, { options, plugins, element }, halo, navigation);
   }
 
-  return init(model, { options, plugins, element }, halo, navigation);
+  return init(model, { options, plugins, element, onRender, onError }, halo, navigation);
 }

@@ -66,9 +66,6 @@ describe('nuked()', () => {
               element: anchorElement,
               fieldIdentifier,
               options,
-              flags: {
-                isEnabled: expect.any(Function),
-              },
               key: expect.any(String),
               stateName: '$',
             },

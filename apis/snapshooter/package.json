@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/snapshooter",
-  "version": "5.4.2",
+  "version": "5.9.0",
   "private": true,
   "description": "",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "client.js"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup --config ./rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup --bundleConfigAsCjs --config ./rollup.config.js",
     "prepublishOnly": "rm -rf dist && yarn run build"
   }
 }

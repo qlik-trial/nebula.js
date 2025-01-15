@@ -105,7 +105,7 @@ module.exports = async ({
         ignored: /node_modules/,
       },
     },
-    onBeforeSetupMiddleware(devServer) {
+    setupMiddlewares(middlewares, devServer) {
       const { app } = devServer;
 
       app.use('/auth', authRouter);
@@ -158,6 +158,7 @@ module.exports = async ({
             port: entryWatcher && entryWatcher.port,
           },
           flags: serveConfig.flags,
+          anything: serveConfig.anything,
           themes: themes.map((theme) => theme.id),
           types: serveConfig.types,
           keyboardNavigation: serveConfig.keyboardNavigation,
@@ -180,6 +181,8 @@ module.exports = async ({
       }
 
       app.use('/assets', express.static(path.resolve(__dirname, '../assets')));
+
+      return middlewares;
     },
     proxy: [
       {

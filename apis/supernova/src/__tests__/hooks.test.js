@@ -37,6 +37,7 @@ import {
   onContextMenu,
   useEmbed,
   useInteractionState,
+  useRef,
 } from '../hooks';
 
 describe('hooks', () => {
@@ -297,6 +298,59 @@ describe('hooks', () => {
       setC(1);
       await frame();
       expect(num).toBe(2);
+    });
+  });
+
+  describe('useRef', () => {
+    beforeEach(() => {
+      c = {};
+      initiate(c);
+    });
+    afterEach(() => {
+      teardown(c);
+    });
+    test('should initiate ref with value', () => {
+      let countValue;
+      c.fn = () => {
+        countValue = useRef(7);
+      };
+
+      run(c);
+      expect(countValue.current).toBe(7);
+    });
+    test('should refer to the same object', async () => {
+      let countValue;
+      let firstObject;
+      c.fn = () => {
+        countValue = useRef(7);
+        if (!firstObject) {
+          firstObject = countValue;
+        }
+      };
+
+      run(c);
+      expect(countValue.current).toBe(7);
+      countValue.current = 11;
+      run(c);
+      await frame();
+      expect(countValue.current).toBe(11);
+      expect(firstObject).toBe(countValue);
+    });
+    test('should not re-render when the ref changes', async () => {
+      let num = 0;
+      let countValue;
+      c.fn = () => {
+        countValue = useRef(7);
+        ++num;
+      };
+
+      run(c);
+      expect(countValue.current).toBe(7);
+      countValue.current = 11;
+      expect(num).toBe(1);
+      await frame();
+      expect(num).toBe(1);
+      expect(countValue.current).toBe(11);
     });
   });
 

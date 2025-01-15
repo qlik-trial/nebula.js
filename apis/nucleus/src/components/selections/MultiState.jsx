@@ -74,7 +74,7 @@ export default function MultiState({ field, api, moreAlignTo = null, onClose = (
         <Grid item xs zeroMinWidth>
           <Badge style={{ padding: '0px 8px' }} color="secondary" badgeContent={field.states.length}>
             <Typography component="span" noWrap style={{ fontSize: '12px', lineHeight: '16px', fontWeight: 600 }}>
-              {field.name}
+              {field.label}
             </Typography>
           </Badge>
         </Grid>
@@ -98,7 +98,7 @@ export default function MultiState({ field, api, moreAlignTo = null, onClose = (
       </ListItem>
       {field.states.map((s, ix) => (
         // eslint-disable-next-line react/no-array-index-key
-        <ListItem key={ix} title={field.name} onClick={(e) => handleShowState(e, ix)}>
+        <ListItem key={ix} title={field.label} onClick={(e) => handleShowState(e, ix)}>
           <Box border={1} width="100%" borderRadius={1} borderColor="divider">
             <OneField field={field} api={api} stateIx={ix} skipHandleShowListBoxPopover />
           </Box>

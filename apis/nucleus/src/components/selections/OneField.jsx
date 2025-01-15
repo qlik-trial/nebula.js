@@ -83,7 +83,7 @@ export default function OneField({
     Header = (
       <Grid item xs style={{ minWidth: 0, flexGrow: 1, opacity: selection.qLocked ? '0.3' : '' }}>
         <Typography noWrap style={{ fontSize: '12px', lineHeight: '16px', fontWeight: 600 }}>
-          {selection.qField}
+          {field.label}
         </Typography>
         <Typography noWrap style={{ fontSize: '12px', opacity: 0.55, lineHeight: '16px' }}>
           {label}

@@ -3,7 +3,7 @@
   "info": {
     "name": "@nebula.js/stardust",
     "description": "Product and framework agnostic integration API for Qlik's Associative Engine",
-    "version": "5.4.2",
+    "version": "5.9.0",
     "license": "MIT",
     "stability": "stable"
   },
@@ -152,6 +152,34 @@
       },
       "examples": [
         "import { useMemo } from '@nebula.js/stardust';\n// ...\nconst v = useMemo(() => {\n  return doSomeHeavyCalculation();\n}), []);"
+      ]
+    },
+    "useRef": {
+      "description": "Creates a reference to a value not needed for rendering\n\nWhile Nebula does not have a virtual DOM, it is still useful\nto have a reference to an object that is retained across\nrenders and in it self does not trigger a render.",
+      "templates": [
+        {
+          "name": "R"
+        }
+      ],
+      "kind": "function",
+      "params": [
+        {
+          "name": "initialValue",
+          "description": "The initial value.",
+          "type": "R"
+        }
+      ],
+      "returns": {
+        "description": "An object with the current value",
+        "type": "#/definitions/Ref",
+        "generics": [
+          {
+            "type": "R"
+          }
+        ]
+      },
+      "examples": [
+        "import { useRef } from '@nebula.js/stardust';\n// ...\n// initiate with simple value\nconst timesRendered = useRef(0);\n\nuseEffect(() => {\n render(layout);\n // increments the render counter, a useState would trigger another render\n timesRendered.current += 1;\n},[layout]);"
       ]
     },
     "usePromise": {
@@ -657,25 +685,33 @@
         "const n = embed(app);\nconst inst = await n.field('field_name');\ninst.mount(document.querySelector('.listbox'), {\n  components: [{\n   key: 'theme',\n   header: {\n     fontColor: { color: '#f00' },\n     fontSize: 23,\n   },\n   content: {\n     fontSize: 16,\n     useContrastColor: false,\n   }\n  },{\n   key: 'selections',\n   colors: {\n     selected: { color: '#0f0' },\n     alternative: { color: '#ededed' },\n     excluded: { color: '#ccc' },\n     selectedExcluded: { color: '#bbb' },\n     possible: { color: '#fefefe' },\n     possible: { color: '#fefefe' },\n   }\n }]\n});"
       ]
     },
+    "LoadFallback": {
+      "description": "Fallback load function for missing types",
+      "kind": "alias",
+      "items": {
+        "kind": "function",
+        "params": [
+          {
+            "type": "#/definitions/LoadType"
+          }
+        ],
+        "returns": {
+          "type": "Promise",
+          "generics": [
+            {
+              "type": "#/definitions/Visualization"
+            }
+          ]
+        }
+      }
+    },
     "Configuration": {
       "kind": "interface",
       "entries": {
         "load": {
           "description": "Fallback load function for missing types",
-          "kind": "function",
-          "params": [
-            {
-              "type": "#/definitions/LoadType"
-            }
-          ],
-          "returns": {
-            "type": "Promise",
-            "generics": [
-              {
-                "type": "#/definitions/Visualization"
-              }
-            ]
-          }
+          "optional": true,
+          "type": "#/definitions/LoadFallback"
         },
         "context": {
           "description": "Settings for the rendering instance",
@@ -697,6 +733,11 @@
           "items": {
             "type": "#/definitions/ThemeInfo"
           }
+        },
+        "hostConfig": {
+          "description": "Qlik api compatible host config, see https://github.com/qlik-oss/qlik-api-ts/blob/main/docs/authentication.md#the-host-config",
+          "optional": true,
+          "type": "object"
         },
         "anything": {
           "optional": true,
@@ -765,6 +806,9 @@
         },
         "deviceType": {
           "type": "string"
+        },
+        "hostConfig": {
+          "type": "object"
         },
         "anything": {
           "type": "object"
@@ -1741,6 +1785,22 @@
           "optional": true,
           "type": "object"
         },
+        "onRender": {
+          "description": "Callback function called after rendering successfully",
+          "optional": true,
+          "kind": "function",
+          "params": []
+        },
+        "onError": {
+          "description": "Callback function called if an error occurs",
+          "optional": true,
+          "kind": "function",
+          "params": [
+            {
+              "type": "#/definitions/RenderError"
+            }
+          ]
+        },
         "plugins": {
           "description": "plugins passed into the visualisation",
           "optional": true,
@@ -1883,6 +1943,32 @@
         "meta": {
           "optional": true,
           "type": "object"
+        }
+      }
+    },
+    "RenderError": {
+      "extends": [
+        {
+          "type": "Error"
+        }
+      ],
+      "kind": "class",
+      "constructor": {
+        "kind": "function",
+        "params": [
+          {
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "name": "originalError",
+            "type": "Error"
+          }
+        ]
+      },
+      "entries": {
+        "originalError": {
+          "type": "Error"
         }
       }
     },
@@ -2176,6 +2262,21 @@
               }
             }
           ]
+        }
+      }
+    },
+    "Ref": {
+      "description": "Reference object returned from useRef",
+      "templates": [
+        {
+          "name": "R"
+        }
+      ],
+      "kind": "interface",
+      "entries": {
+        "current": {
+          "description": "Current value",
+          "type": "R"
         }
       }
     },

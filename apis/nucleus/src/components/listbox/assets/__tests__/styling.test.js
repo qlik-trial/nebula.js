@@ -1,10 +1,4 @@
-import getStyling, {
-  CONTRAST_THRESHOLD,
-  DEFAULT_SELECTION_COLORS,
-  getContrast,
-  getContrastingColor,
-  getOverridesAsObject,
-} from '../styling';
+import getStyling, { DEFAULT_SELECTION_COLORS, getOverridesAsObject } from '../styling';
 
 describe('styling', () => {
   let theme = {};
@@ -116,14 +110,14 @@ describe('styling', () => {
       expect(styles.search.color).toEqual('object.listBox,content,color');
     });
     it('search - should get desired color if contrasting enough', () => {
-      themeApi.getStyle = () => '#999';
+      themeApi.getStyle = () => '#888888';
       const styles = getStyling({ app, themeApi, theme, components: [] });
-      expect(styles.search.color).toEqual('#999');
+      expect(styles.search.color).toEqual('#888888');
     });
     it('search - should get a better contrasting color if not good contrast against white', () => {
       themeApi.getStyle = () => '#aaa';
       const styles = getStyling({ app, themeApi, theme, components: [] });
-      expect(styles.search.color).toEqual('#000');
+      expect(styles.search.color).toEqual('#000000');
     });
     it('header', () => {
       components = [
@@ -165,9 +159,9 @@ describe('styling', () => {
         },
       ];
       const POSSIBLE_COLOR = 'rgb(255, 255, 255)';
-      const CONTRASTING_TO_POSSIBLE = '#000';
+      const CONTRASTING_TO_POSSIBLE = '#000000';
 
-      themeApi.getStyle = (a, b, c) => (c === 'backgroundColor' ? POSSIBLE_COLOR : `${a},${b},${c}`);
+      themeApi.getStyle = (ns, path, prop) => (prop.includes('possible') ? POSSIBLE_COLOR : `${ns},${path},${prop}`);
       components[0].content.fontColor.color = '#FFFFFF';
       const styles2 = getStyling({ app, themeApi, theme, components });
       expect(styles2.content.color).toEqual(CONTRASTING_TO_POSSIBLE);
@@ -200,72 +194,13 @@ describe('styling', () => {
     });
   });
 
-  const hasEnoughContrast = (a, b) => getContrast(a, b) > CONTRAST_THRESHOLD;
-
-  describe('contrast', () => {
-    it('should return undefined for unsupported or invalid color(s)', () => {
-      expect(getContrast('rgb(0,0,0)', 'transparent')).toEqual(undefined);
-      expect(getContrast('rgb(0,0,0)', 'asdasd')).toEqual(undefined);
-      expect(getContrast('dsadasd', 'rgb(0,0,0)')).toEqual(undefined);
-    });
-
-    it('should fallback to false when contrast is undefined for unsupported or invalid color(s)', () => {
-      expect(hasEnoughContrast('#ddd', 'white')).toEqual(false);
-      expect(hasEnoughContrast('#ccc', 'white')).toEqual(false);
-      expect(hasEnoughContrast('rgb(0,0,0)', 'transparent')).toEqual(false);
-      expect(hasEnoughContrast('transparent', 'transparent')).toEqual(false);
-      expect(hasEnoughContrast('red', 'blue')).toEqual(true);
-      expect(hasEnoughContrast('misspelled', 'hey hey')).toEqual(false);
-      expect(hasEnoughContrast('misspelled', 'hey hey')).toEqual(false);
-      expect(hasEnoughContrast('transparent', 'transparent')).toEqual(false);
-      expect(hasEnoughContrast('  hsl   (0,   0  ,  0  ,  1.0      )', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('hsl(0, 0, 0, 1)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('hsl(0,0,0,1.0)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast(undefined, '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('', '#FFF')).toEqual(false);
-    });
-    it('should detect transparent colors and then always return false since we do not know color is behind the transparent color', () => {
-      expect(hasEnoughContrast('  rgba   (0,   0  ,  0  ,  0.2      )', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('  hsla   (0,   0  ,  0  ,  0.2      )', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('  rgba   (0,   0  ,  0  ,  .2      )', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('  hsla   (0,   0  ,  0  ,  .2      )', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('rgba(0, 0, 0, 0)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('rgba(0,0,0,0)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('hsla(0, 0, 0, 0)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('hsla(0,0,0,0)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('transparent', '#FFF')).toEqual(false);
-    });
-    it('should fallback to false for unsupported formats', () => {
-      expect(hasEnoughContrast('rgb(0 0 0 / 0%', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('rgb(0 0 0 / 100%)', '#FFF')).toEqual(false);
-      expect(hasEnoughContrast('rgb(255 255 255 / 0%)', '#000')).toEqual(false);
-      expect(hasEnoughContrast('rgb(255 255 255 / 100%)', '#000')).toEqual(false);
-    });
-
-    it('should not detect as transparent colors', () => {
-      expect(hasEnoughContrast('rgba(0, 0, 0, 1)', '#FFF')).toEqual(true);
-      expect(hasEnoughContrast('hsla(0,0,0,1.0)', '#FFF')).toEqual(true);
-      expect(hasEnoughContrast('rgba(0,0,0,1.0)', '#FFF')).toEqual(true);
-      expect(hasEnoughContrast('red', '#FFF')).toEqual(true);
-    });
-  });
-
-  describe('get contrasting color', () => {
-    it('should prefer light color even though contrast is higher for desired color', () => {
-      const bg = '#474747';
-      const c1 = getContrast('#000', bg);
-      const c2 = getContrast('#fff', bg);
-      expect(c1 > c2).toBeTruthy(); // although it does not make sense when comparing with the eye
-      expect(getContrastingColor(bg, '#000')).toEqual('#FFF');
-    });
-  });
-
   describe('getSelectionColors', () => {
     let themeSelectionColorsEnabled;
 
     beforeEach(() => {
       components = [];
       themeSelectionColorsEnabled = true;
+      themeApi.getStyle = () => undefined;
     });
 
     const getStylingCaller = () =>
@@ -305,6 +240,8 @@ describe('styling', () => {
     });
 
     it('should return selection colors from themeAPI', () => {
+      themeApi.getStyle = (ns, path, prop) => `${ns},${path},${prop}`;
+
       expect(getStylingCaller()).toMatchObject({
         selected: 'object.listBox,,dataColors.selected',
         alternative: 'object.listBox,,dataColors.alternative',
@@ -314,7 +251,7 @@ describe('styling', () => {
       });
     });
     it('should return selection colors from mui theme, except possible which returns background color', () => {
-      themeSelectionColorsEnabled = false;
+      themeApi.getStyle = (ns, path, prop) => (prop === 'backgroundColor' ? `${ns},${path},${prop}` : undefined);
 
       expect(getStylingCaller()).toMatchObject({
         selected: 'selected-from-theme',
@@ -326,9 +263,6 @@ describe('styling', () => {
     });
 
     it('should return selection colors from mui theme, for all states', () => {
-      themeSelectionColorsEnabled = false;
-      themeApi.getStyle = (ns, path, prop) => (prop === 'backgroundColor' ? undefined : `${ns},${path},${prop}`);
-
       expect(getStylingCaller()).toMatchObject({
         selected: 'selected-from-theme',
         alternative: 'alternative-from-theme',
@@ -339,8 +273,6 @@ describe('styling', () => {
     });
 
     it('should return selection colors from hardcoded default', () => {
-      themeSelectionColorsEnabled = false;
-      themeApi.getStyle = (ns, path, prop) => (prop === 'backgroundColor' ? undefined : `${ns},${path},${prop}`);
       theme.palette.selected = {};
 
       expect(getStylingCaller()).toMatchObject(DEFAULT_SELECTION_COLORS);

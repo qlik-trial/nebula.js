@@ -67,7 +67,7 @@ describe('ListBoxPortal', () => {
     test('should get object from app and use as model', async () => {
       const qId = '1337';
       const app = {};
-      const elem = ListBoxPortal({ app, qId });
+      const [elem] = ListBoxPortal({ app, qId });
       await render(elem);
       expect(useExistingModel).toHaveBeenCalledWith({
         app,
@@ -81,7 +81,7 @@ describe('ListBoxPortal', () => {
     test('should use provided "sessionModel"', async () => {
       const app = {};
       const options = { sessionModel: {} };
-      const elem = ListBoxPortal({ app, options });
+      const [elem] = ListBoxPortal({ app, options });
       await render(elem);
       expect(useExistingModel).toHaveBeenCalledWith({
         app,
@@ -95,7 +95,7 @@ describe('ListBoxPortal', () => {
     test('should create session model when providing field name', async () => {
       const fieldIdentifier = 'Alpha';
       const app = {};
-      const elem = ListBoxPortal({ app, fieldIdentifier });
+      const [elem] = ListBoxPortal({ app, fieldIdentifier });
       await render(elem);
       expect(useOnTheFlyModelMock).toHaveBeenCalledWith({
         app,
@@ -110,7 +110,7 @@ describe('ListBoxPortal', () => {
     test('should create session model when providing qLibraryId', async () => {
       const fieldIdentifier = { qLibraryId: '123' };
       const app = {};
-      const elem = ListBoxPortal({ app, fieldIdentifier });
+      const [elem] = ListBoxPortal({ app, fieldIdentifier });
       await render(elem);
       expect(useOnTheFlyModelMock).toHaveBeenCalledWith({
         app,
@@ -131,7 +131,7 @@ describe('ListBoxPortal', () => {
       const elementRef = {
         current: undefined,
       };
-      const elem = ListBoxPortal({ app, fieldIdentifier, options });
+      const [elem] = ListBoxPortal({ app, fieldIdentifier, options });
       await render(elem);
       expect(useObjectSelectionsMock).toHaveBeenCalledWith(
         app,
@@ -155,7 +155,7 @@ describe('ListBoxPortal', () => {
         model: {},
         selections: notUsedSelectionsApi,
       };
-      const elem = ListBoxPortal({ app, fieldIdentifier, options });
+      const [elem] = ListBoxPortal({ app, fieldIdentifier, options });
       await render(elem);
       expect(ListBoxInlineMock).toHaveBeenCalledWith(
         {
@@ -220,7 +220,7 @@ describe('ListBoxPortal', () => {
         model: {},
         frequencyMode: 'percent',
       };
-      const elem = ListBoxPortal({ app, fieldIdentifier, options });
+      const [elem] = ListBoxPortal({ app, fieldIdentifier, options });
       await render(elem);
       expect(ListBoxInlineMock.mock.calls[0][0]).toMatchObject(
         {

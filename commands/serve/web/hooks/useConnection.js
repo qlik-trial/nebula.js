@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { connect } from '../connect';
 
 export const useConnection = ({ info, cachedConnectionsData }) => {

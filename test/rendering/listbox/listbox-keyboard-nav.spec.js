@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 import { test, expect } from '@playwright/test';
-
-const getPage = require('../setup');
-const startServer = require('../server');
+import getPage from '../setup';
+import startServer from '../server';
 
 test.describe('keyboard navigation', () => {
   const filePrefix = 'listbox-focus';

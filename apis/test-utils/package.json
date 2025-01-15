@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/test-utils",
-  "version": "5.4.2",
+  "version": "5.9.0",
   "private": true,
   "description": "",
   "license": "MIT",
@@ -19,9 +19,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup --config ../../rollup.config.js",
-    "build:dev": "rollup --config ../../rollup.config.js",
-    "build:watch": "rollup --config ../../rollup.config.js -w",
+    "build": "cross-env NODE_ENV=production rollup --bundleConfigAsCjs --config ../../rollup.config.js",
+    "build:dev": "rollup --bundleConfigAsCjs --config ../../rollup.config.js",
+    "build:watch": "rollup --bundleConfigAsCjs --config ../../rollup.config.js -w",
     "prepublishOnly": "rm -rf dist && yarn run build"
   },
   "peerDependencies": {

@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   verbose: true,
   clearMocks: true,
   testEnvironment: 'jest-environment-jsdom',
@@ -59,3 +59,5 @@ module.exports = {
     'd3-color': '<rootDir>/node_modules/d3-color/dist/d3-color.min.js',
   },
 };
+
+export default config;

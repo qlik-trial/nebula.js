@@ -1,11 +1,5 @@
-import { Color } from '@nebula.js/theme';
+import { createColor, getContrastingColor } from 'qlik-chart-modules';
 import { resolveBgColor, resolveBgImage } from '../../../utils/style/styling-props';
-
-const LIGHT = '#FFF';
-const DARK = '#000';
-
-export const CONTRAST_THRESHOLD = 1.5;
-const LIGHT_PREFERRED_THRESHOLD = 3;
 
 export const DEFAULT_SELECTION_COLORS = {
   selected: '#00873D',
@@ -14,46 +8,6 @@ export const DEFAULT_SELECTION_COLORS = {
   selectedExcluded: '#A9A9A9',
   possible: '#FFFFFF',
 };
-
-export const getContrast = (desired, background) => {
-  let contrast = false;
-
-  const des = new Color(desired);
-  const bg = new Color(background);
-
-  if (bg.isInvalid() || des.isInvalid() || bg.getAlpha() < 1 || des.getAlpha() < 1) {
-    return undefined;
-  }
-
-  try {
-    contrast = Color.getContrast(des, bg);
-  } catch (err) {
-    contrast = undefined;
-  }
-  return contrast;
-};
-
-export function getContrastingColor(backgroundColor, desiredTextColor = undefined, dark = DARK, light = LIGHT) {
-  const lightColor = new Color(light);
-  const bg = new Color(backgroundColor);
-  const des = new Color(desiredTextColor);
-  if (bg.isInvalid() || des.isInvalid() || bg.getAlpha() < 1 || des.getAlpha() < 1) {
-    return desiredTextColor;
-  }
-
-  // Always prioritise light color if it gives better contrast than desired color's.
-  const lightColorContrast = getContrast(lightColor, bg);
-  const desiredColorContrast = getContrast(des, bg);
-  const useLightColor = lightColorContrast > desiredColorContrast || lightColorContrast > LIGHT_PREFERRED_THRESHOLD;
-
-  let contrastingColor;
-  if (desiredTextColor && desiredColorContrast > CONTRAST_THRESHOLD && !useLightColor) {
-    contrastingColor = desiredTextColor;
-  } else {
-    contrastingColor = useLightColor ? light : dark;
-  }
-  return contrastingColor;
-}
 
 const SUPPORTED_COMPONENTS = ['theme', 'selections'];
 
@@ -70,14 +24,7 @@ export function getOverridesAsObject(components = []) {
   return overrides;
 }
 
-function getSelectionColors({
-  getColorPickerColor,
-  theme,
-  getListboxStyle,
-  overrides,
-  checkboxes,
-  themeSelectionColorsEnabled,
-}) {
+function getSelectionColors({ getColorPickerColor, theme, getListboxStyle, overrides, checkboxes }) {
   const componentContentTextColor = overrides.theme?.content?.fontColor;
 
   // color priority: layout.component > theme content color > MUI theme
@@ -88,9 +35,6 @@ function getSelectionColors({
 
   const useContrastTextColor = !checkboxes && (overrides.theme?.content?.useContrastColor ?? true);
 
-  const getSelectionThemeColor = (state) =>
-    themeSelectionColorsEnabled ? getListboxStyle('', `dataColors.${state}`) : undefined;
-
   const componentSelectionColors = overrides.selections?.colors || {};
 
   const getSelectionStateColors = (state) => {
@@ -99,7 +43,7 @@ function getSelectionColors({
     // color priority: layout.component > theme dataColors > theme background (only for 'possible') > MUI theme > hardcoded default
     const color =
       getColorPickerColor(componentSelectionColors[state]) ||
-      getSelectionThemeColor(state) ||
+      getListboxStyle('', `dataColors.${state}`) ||
       (state === 'possible' && getListboxStyle('', 'backgroundColor')) ||
       theme.palette?.selected?.[paletteState] ||
       DEFAULT_SELECTION_COLORS[state];
@@ -141,19 +85,12 @@ function getSearchColor(getListboxStyle) {
 }
 
 function getSearchBGColor(bgCol, getListboxStyle) {
-  const searchBgColorObj = new Color(getListboxStyle('', 'backgroundColor'));
+  const searchBgColorObj = createColor(getListboxStyle('', 'backgroundColor'));
   searchBgColorObj.setAlpha(0.7);
-  return searchBgColorObj.isInvalid() ? bgCol : searchBgColorObj.toRGBA();
+  return searchBgColorObj.isInvalid() ? bgCol : searchBgColorObj.getRGBA();
 }
 
-export default function getStyles({
-  app,
-  themeApi,
-  theme,
-  components = [],
-  checkboxes = false,
-  themeSelectionColorsEnabled = false,
-}) {
+export default function getStyles({ app, themeApi, theme, components = [], checkboxes = false }) {
   const overrides = getOverridesAsObject(components);
   const getListboxStyle = (path, prop) => themeApi.getStyle('object.listBox', path, prop);
   const getColorPickerColor = (c) => (c?.index > 0 || c?.color ? themeApi.getColorPickerColor(c, false) : undefined);
@@ -164,7 +101,6 @@ export default function getStyles({
     getListboxStyle,
     overrides,
     checkboxes,
-    themeSelectionColorsEnabled,
   });
   const themeOverrides = overrides.theme || {};
 

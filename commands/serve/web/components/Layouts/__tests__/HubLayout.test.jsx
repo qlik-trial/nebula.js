@@ -1,11 +1,11 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import * as RouterModule from 'react-router-dom';
+import * as RouterModule from 'react-router';
 import HubLayout from '../HubLayout';
 import { TestRenderer } from '../../../utils';
 import { steps } from '../../../constants/connectionSteps';
 
-jest.mock('react-router-dom', () => ({ ...jest.requireActual('react-router-dom') }));
+jest.mock('react-router', () => ({ ...jest.requireActual('react-router') }));
 
 describe('Should render layout', () => {
   let useNavigateMock;

@@ -1,13 +1,17 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-async function startServer(port) {
+const FN = fileURLToPath(import.meta.url);
+const DN = dirname(FN);
+
+export default async function startServer(port) {
   const app = express();
   // const port = 8050;
   const url = `http://localhost:${port}`;
-  app.use(express.static(path.resolve(__dirname)));
-  app.use('/apis', express.static(path.resolve(__dirname, '../../apis')));
-  app.use('/node_modules', express.static(path.resolve(__dirname, '../../node_modules')));
+  app.use(express.static(path.resolve(DN)));
+  app.use('/apis', express.static(path.resolve(DN, '../../apis')));
+  app.use('/node_modules', express.static(path.resolve(DN, '../../node_modules')));
 
   let server;
 
@@ -28,4 +32,6 @@ async function startServer(port) {
   };
 }
 
-module.exports = startServer;
+export function getPaths(dir) {
+  return path.join(DN, dir);
+}

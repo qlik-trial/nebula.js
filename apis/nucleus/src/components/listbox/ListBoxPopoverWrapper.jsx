@@ -22,7 +22,7 @@ export const getOptions = (usersOptions = {}) => {
   return squashedOptions;
 };
 
-export default function ListBoxPopoverWrapper({ app, fieldIdentifier, stateName, element, options = {}, flags }) {
+export default function ListBoxPopoverWrapper({ app, fieldIdentifier, stateName, element, options = {} }) {
   const [showState, setShowstate] = useState(!!options.show);
   const handleCloseShowState = () => {
     setShowstate(false);
@@ -43,7 +43,6 @@ export default function ListBoxPopoverWrapper({ app, fieldIdentifier, stateName,
       stateName={stateName}
       autoFocus={options.autoFocus}
       components={options.components}
-      flags={flags}
       sortCriteria={options.sortCriteria}
     />
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid, Tooltip } from '@mui/material';
 
 const PREFIX = 'Footer';
 
@@ -31,9 +31,11 @@ function Footer({ layout, titleStyles = {} }) {
   return layout && layout.showTitles && layout.footnote ? (
     <StyledGrid container>
       <Grid item className={classes.itemStyle}>
-        <Typography noWrap variant="body2" className={CellFooter.className} style={titleStyles.footer}>
-          {layout.footnote}
-        </Typography>
+        <Tooltip title={layout.footnote}>
+          <Typography noWrap variant="body2" className={CellFooter.className} style={titleStyles.footer}>
+            {layout.footnote}
+          </Typography>
+        </Tooltip>
       </Grid>
     </StyledGrid>
   ) : null;

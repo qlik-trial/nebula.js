@@ -10,24 +10,33 @@ import saveSoftProperties from './utils/save-soft-properties';
 
 const noopi = () => {};
 
-export default function viz({ model, halo, navigation, initialError, onDestroy = async () => {} } = {}) {
+export default function viz({
+  model,
+  halo,
+  navigation,
+  initialError,
+  onDestroy = async () => {},
+  onRender = () => {},
+  onError = () => {},
+} = {}) {
   let unmountCell = noopi;
   let cellRef = null;
   let mountedReference = null;
   let onMount = null;
-  let onRender = null;
+  let onRenderResolve = null;
   let viewDataObjectId;
   const mounted = new Promise((resolve) => {
     onMount = resolve;
   });
 
   const rendered = new Promise((resolve) => {
-    onRender = resolve;
+    onRenderResolve = resolve;
   });
 
   const createOnInitialRender = (override) => () => {
-    override && override();
-    onRender();
+    override?.(); // from options.onInitialRender
+    onRenderResolve(); // internal promise in viz to wait for render
+    onRender(); // from RenderConfig
   };
 
   let initialSnOptions = {};
@@ -248,6 +257,7 @@ export default function viz({ model, halo, navigation, initialError, onDestroy =
           onMount,
           emitter,
           navigation,
+          onError,
         });
         return mounted;
       },

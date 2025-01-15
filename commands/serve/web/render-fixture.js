@@ -11,7 +11,7 @@ const getDefaultGenericObject = ({ type }) => ({
   },
 });
 
-const getServeOptions = ({ themes = [], supernova = {}, flags }) => {
+const getServeOptions = ({ themes = [], supernova = {}, flags, anything }) => {
   const options = {
     instanceConfig: {
       themes: themes.map((t) => ({
@@ -22,6 +22,7 @@ const getServeOptions = ({ themes = [], supernova = {}, flags }) => {
         constraints: {},
       },
       flags,
+      anything,
     },
   };
   if (supernova.name) {

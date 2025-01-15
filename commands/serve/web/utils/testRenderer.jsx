@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import userEvents from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { createTheme, ThemeProvider } from '@nebula.js/ui/theme';
 
 import { RootContext } from '../contexts/RootContext';

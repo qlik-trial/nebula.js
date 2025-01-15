@@ -8,7 +8,7 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const terser = require('@rollup/plugin-terser');
 
-const localeStringValidator = require('./tools/locale-string-validator');
+const localeStringValidator = require('./tools/locale-string-validator.cjs');
 
 const cwd = process.cwd();
 const pkg = require(path.join(cwd, 'package.json')); // eslint-disable-line

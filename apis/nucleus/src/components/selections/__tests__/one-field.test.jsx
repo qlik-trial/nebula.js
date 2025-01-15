@@ -24,6 +24,7 @@ describe('<OneField />', () => {
 
   test('should have `ALL`', () => {
     const field = {
+      label: 'my-field',
       selections: [
         {
           qField: 'my-field',
@@ -61,6 +62,7 @@ describe('<OneField />', () => {
   });
   test('should have `Of`', () => {
     const field = {
+      label: 'my-field',
       selections: [
         {
           qField: 'my-field',

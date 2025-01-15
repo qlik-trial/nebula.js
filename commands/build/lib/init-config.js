@@ -52,7 +52,7 @@ const options = {
     description:
       'In Rollup, the browser option is a configuration option that specifies whether the bundle is intended to run in a browser environment.',
     type: 'boolean',
-    default: false,
+    default: true,
   },
   codeSplit: {
     description:

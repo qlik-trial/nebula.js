@@ -67,9 +67,10 @@ const ConnectionGuid = ({ showGuid }) => (
       Example: <code>wss://mycompany.com/bi</code>
       <br />
       <br />
-      Note that for the Qlik Sense Proxy to allow sessions from this webpage, <code>{window.location.host}</code> needs
-      to be whitelisted in QMC in your Qlik Sense Enterprise on Windows deployment. In addition, you need to enable{' '}
-      <i>Has secure attribute</i> and set <i>SameSite attribute</i> to <i>None</i>.
+      Note that for the Qlik Sense Proxy to allow sessions from this webpage,
+      <code>{window.location.host}</code> needs to be whitelisted in QMC in your Qlik Sense Enterprise on Windows
+      deployment. In addition, you need to enable <i>Has secure attribute</i> and set <i>SameSite attribute</i> to{' '}
+      <i>None</i>.
       <br />
       Make sure you are logged in to Qlik Sense in another browser tab.
     </Typography>

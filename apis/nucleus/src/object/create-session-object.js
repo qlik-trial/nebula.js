@@ -10,6 +10,8 @@ import init from './initiate';
  * @description Configuration for rendering a visualisation, either creating or fetching an existing object.
  * @property {HTMLElement} element Target html element to render in to
  * @property {object=} options Options passed into the visualisation
+ * @property {function=} onRender Callback function called after rendering successfully
+ * @property {function(RenderError)=} onError Callback function called if an error occurs
  * @property {Plugin[]} [plugins] plugins passed into the visualisation
  * @property {string=} id For existing objects: Engine identifier of object to render
  * @property {string=} type For creating objects: Type of visualisation to render
@@ -39,7 +41,7 @@ import init from './initiate';
  * nebbie.render(createConfig);
  */
 export default async function createSessionObject(
-  { type, version, fields, properties, options, plugins, element, extendProperties, navigation },
+  { type, version, fields, properties, options, plugins, element, extendProperties, navigation, onRender, onError },
   halo,
   store
 ) {
@@ -90,5 +92,5 @@ export default async function createSessionObject(
     await halo.app.destroySessionObject(model.id);
     unsubscribe();
   };
-  return init(model, { options, plugins, element }, halo, navigation, error, onDestroy);
+  return init(model, { options, plugins, element, onRender, onError }, halo, navigation, error, onDestroy);
 }

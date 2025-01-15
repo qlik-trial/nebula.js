@@ -1,22 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { act } from '@testing-library/react';
 import fs from 'fs';
-import path from 'path';
+import getPage from '../setup';
+import startServer, { getPaths } from '../server';
+import execSequence from '../testUtils';
 
-const getPage = require('../setup');
-const startServer = require('../server');
-const { execSequence } = require('../testUtils');
+const paths = getPaths('listbox/__fixtures__');
 
-const paths = path.join(__dirname, '__fixtures__');
-
-function shouldIgnoreFile(file) {
-  // Ignore subpaths
+const shouldIgnoreFile = (file) => {
   const IGNORE_PATTERNS = [];
   const INCLUDE_PATTERNS = [/\.js/];
   const ignore =
     IGNORE_PATTERNS.some((P) => file.search(P) > -1) || INCLUDE_PATTERNS.some((P) => file.search(P) === -1);
   return ignore;
-}
+};
 
 test.describe('listbox mashup rendering test', () => {
   const object = '[data-type="listbox"]';
@@ -31,7 +28,7 @@ test.describe('listbox mashup rendering test', () => {
   test.use({ viewport: { width: 300, height: 500 } });
 
   test.beforeEach(async () => {
-    ({ url, destroy: destroyServer } = await startServer(8050));
+    ({ url, destroy: destroyServer } = await startServer(8049));
     ({ page, destroy: destroyBrowser } = await getPage());
   });
 
@@ -93,7 +90,6 @@ test.describe('listbox mashup rendering test', () => {
     await search.click();
     await search.fill('B');
 
-    // Note that since we don't have a backend providing search results, we can't test highlighting and selected (green) rows.
     const selector = await page.locator(listboxSelector);
     const image = await selector.screenshot({ caret: 'hide' });
     return expect(image).toMatchSnapshot(FILE_NAME);
@@ -109,7 +105,6 @@ test.describe('listbox mashup rendering test', () => {
     await search.click();
     await search.fill('B');
 
-    // Note that since we don't have a backend providing search results, we can't test highlighting and selected (green) rows.
     const selector = await page.locator(listboxSelector);
     const image = await selector.screenshot({ caret: 'hide' });
     return expect(image).toMatchSnapshot(FILE_NAME);
@@ -120,7 +115,6 @@ test.describe('listbox mashup rendering test', () => {
 
     await page.goto(`${url}/listbox/listbox.html?scenario=noToolbar`, { waitUntil: 'networkidle' });
 
-    // Note that since we don't have a backend providing search results, we can't test highlighting and selected (green) rows.
     const selector = await page.locator(listboxSelector);
     const image = await selector.screenshot({ caret: 'hide' });
     return expect(image).toMatchSnapshot(FILE_NAME);
@@ -137,7 +131,6 @@ test.describe('listbox mashup rendering test', () => {
     });
 
     await page.waitForSelector(toolbarPopoverSelector);
-    // Wait for animation
     await new Promise((resolve) => {
       setTimeout(() => {
         resolve();

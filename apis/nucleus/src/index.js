@@ -78,11 +78,17 @@ const DEFAULT_SNAPSHOT_CONFIG = /** @lends SnapshotConfiguration */ {
  */
 
 /**
+ * Fallback load function for missing types
+ * @typedef {Function(LoadType):Promise<Visualization>} LoadFallback
+ */
+
+/**
  * @interface Configuration
- * @property {Function(LoadType):Promise<Visualization>=} load Fallback load function for missing types
+ * @property {LoadFallback=} load Fallback load function for missing types
  * @property {Context=} context Settings for the rendering instance
  * @property {Array<TypeInfo>=} types Visualization types to register
  * @property {Array<ThemeInfo>=} themes Themes to register
+ * @property {object=} hostConfig Qlik api compatible host config, see https://github.com/qlik-oss/qlik-api-ts/blob/main/docs/authentication.md#the-host-config
  * @property {object=} anything
  * @example
  * import { embed } from '@nebula.js/stardust'
@@ -178,6 +184,7 @@ const mergeConfigs = (base, c) => ({
   types: mergeArray(base.types, c.types),
   themes: mergeArray(base.themes, c.themes),
   flags: mergeObj(base.flags, c.flags),
+  hostConfig: c.hostConfig || base.hostConfig,
   anything: mergeObj(base.anything, c.anything),
 });
 
@@ -237,6 +244,8 @@ function nuked(configuration = {}) {
         flags: flagsFn(configuration.flags),
         /** @type {string} */
         deviceType: deviceTypeFn(configuration.context.deviceType),
+        /** @type {object} */
+        hostConfig: configuration.hostConfig,
         /** @type {object} */
         anything: configuration.anything,
       },
@@ -541,7 +550,7 @@ function nuked(configuration = {}) {
             const onSelectionDeactivated = () => fieldSels.emit('selectionDeactivated');
 
             return new Promise((resolve) => {
-              this._instance = ListBoxPortal({
+              [this._instance, this._ref] = ListBoxPortal({
                 element,
                 app,
                 fieldIdentifier,
@@ -553,7 +562,6 @@ function nuked(configuration = {}) {
                 }),
                 stateName: options.stateName || '$',
                 renderedCallback: resolve,
-                flags: halo.public.galaxy.flags,
               });
               root.add(this._instance);
             });
@@ -569,7 +577,23 @@ function nuked(configuration = {}) {
             if (this._instance) {
               root.remove(this._instance);
               this._instance = null;
+              this._ref = null;
             }
+          },
+          // ===== unexposed experimental API - use at own risk ======
+          __DO_NOT_USE__: {
+            options(opts) {
+              const onSelectionActivated = () => fieldSels.emit('selectionActivated');
+              const onSelectionDeactivated = () => fieldSels.emit('selectionDeactivated');
+              if (fieldSels._ref?.current) {
+                const options = getListboxPortalOptions({
+                  onSelectionActivated,
+                  onSelectionDeactivated,
+                  ...opts,
+                });
+                fieldSels._ref.current.setOptions(options);
+              }
+            },
           },
         };
         eventmixin(fieldSels);
@@ -606,7 +630,6 @@ function nuked(configuration = {}) {
             fieldIdentifier,
             options: opts,
             stateName: options.stateName || '$',
-            flags: halo.public.galaxy.flags,
           });
           root.add(api._popoverInstance);
         },

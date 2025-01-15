@@ -1,4 +1,4 @@
-import * as ReactRouterDomModule from 'react-router-dom';
+import * as ReactRouterDomModule from 'react-router';
 import { renderHook, act } from '@testing-library/react';
 import { useAppList } from '../useAppList';
 import * as connectModule from '../../connect';
@@ -11,8 +11,8 @@ jest.mock('../../utils', () => ({
   ...jest.requireActual('../../utils'),
 }));
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
   useNavigate: jest.fn(),
 }));
 

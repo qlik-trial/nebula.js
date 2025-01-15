@@ -53,6 +53,12 @@ const getExternalDefault = ({ pkg }) => {
   return Object.keys(peers);
 };
 
+const getExternalCore = ({ pkg }) => {
+  const defaultExternal = ['@nebula.js/stardust', /^@qlik\/api\//];
+  const peers = Object.keys(pkg.peerDependencies || {});
+  return [...defaultExternal, ...peers];
+};
+
 const getOutputFileDefault = ({ pkg }) => pkg.main;
 
 const getOutputNameDefault = ({ pkg }) => pkg.name.split('/').reverse()[0];
@@ -105,7 +111,7 @@ const config = ({
     }
   }
 
-  const external = getExternal({ pkg, config: argv });
+  const external = core ? getExternalCore({ pkg }) : getExternal({ pkg, config: argv });
   // stardust should always be external
   if (external.indexOf('@nebula.js/stardust') === -1) {
     // eslint-disable-next-line no-console
@@ -128,7 +134,7 @@ const config = ({
     } else {
       outputConfig.dir = path.resolve(dir, outputFile.split('/')[0]);
     }
-    if (argv.codeSplit && format === 'umd') {
+    if (format === 'umd') {
       outputConfig.inlineDynamicImports = true;
     }
     return outputConfig;

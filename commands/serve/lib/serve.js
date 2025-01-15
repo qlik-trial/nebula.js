@@ -11,7 +11,7 @@ const initConfig = require('./init-config');
 
 const webpackServe = require('./webpack.serve');
 
-const initiateWatch = async ({ snPath, snName, host }) => {
+const initiateWatch = async ({ snPath = '', snName, host }) => {
   // TODO - timeout
   let onInitiated;
   const done = new Promise((resolve) => {

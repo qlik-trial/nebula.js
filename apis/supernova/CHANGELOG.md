@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.9.0](https://github.com/qlik-oss/nebula.js/compare/v5.8.1...v5.9.0) (2025-01-13)
+
+**Note:** Version bump only for package @nebula.js/supernova
+
+## [5.8.1](https://github.com/qlik-oss/nebula.js/compare/v5.8.0...v5.8.1) (2024-11-23)
+
+### Bug Fixes
+
+- expose useRef ([#1642](https://github.com/qlik-oss/nebula.js/issues/1642)) ([a1421f2](https://github.com/qlik-oss/nebula.js/commit/a1421f216cb8f5377fa6ff518f7a3082fcd2f89e))
+
+# [5.8.0](https://github.com/qlik-oss/nebula.js/compare/v5.7.1...v5.8.0) (2024-11-18)
+
+### Features
+
+- add useRef ([#1637](https://github.com/qlik-oss/nebula.js/issues/1637)) ([bf233c2](https://github.com/qlik-oss/nebula.js/commit/bf233c24a5aa6765372b8d7bf7144f45bdc419aa))
+
+## [5.7.1](https://github.com/qlik-oss/nebula.js/compare/v5.7.0...v5.7.1) (2024-10-15)
+
+**Note:** Version bump only for package @nebula.js/supernova
+
+# [5.7.0](https://github.com/qlik-oss/nebula.js/compare/v5.6.0...v5.7.0) (2024-10-15)
+
+**Note:** Version bump only for package @nebula.js/supernova
+
+# [5.6.0](https://github.com/qlik-oss/nebula.js/compare/v5.5.0...v5.6.0) (2024-10-08)
+
+**Note:** Version bump only for package @nebula.js/supernova
+
+# [5.5.0](https://github.com/qlik-oss/nebula.js/compare/v5.4.2...v5.5.0) (2024-09-30)
+
+**Note:** Version bump only for package @nebula.js/supernova
+
 ## [5.4.2](https://github.com/qlik-oss/nebula.js/compare/v5.4.1...v5.4.2) (2024-08-27)
 
 **Note:** Version bump only for package @nebula.js/supernova

@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useRootContext } from '../../../contexts/RootContext';
 import { checkIfHistoryConnectionDisabled } from '../../../utils';
 

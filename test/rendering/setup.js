@@ -1,6 +1,6 @@
-const { chromium } = require('@playwright/test');
+import { chromium } from '@playwright/test';
 
-async function getPage() {
+export default async function getPage() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(30000);
@@ -12,5 +12,3 @@ async function getPage() {
 
   return { browser, page, destroy };
 }
-
-module.exports = getPage;

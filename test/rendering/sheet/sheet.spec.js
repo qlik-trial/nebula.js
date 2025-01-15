@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
-
-const getPage = require('../setup');
-const startServer = require('../server');
+import getPage from '../setup';
+import startServer from '../server';
 
 test.describe('sheet mashup rendering test', () => {
   const object = '[data-type="sheet"]';
@@ -29,6 +28,7 @@ test.describe('sheet mashup rendering test', () => {
     const image = await selector.screenshot();
     return expect(image).toMatchSnapshot(FILE_NAME);
   });
+
   test('sheet bound Less test', async () => {
     const FILE_NAME = 'sheet_bound_less.png';
 

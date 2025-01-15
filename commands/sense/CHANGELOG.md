@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.9.0](https://github.com/qlik-oss/nebula.js/compare/v5.8.1...v5.9.0) (2025-01-13)
+
+### Bug Fixes
+
+- **deps:** update dependency @rollup/plugin-node-resolve to v16 ([#1653](https://github.com/qlik-oss/nebula.js/issues/1653)) ([d675452](https://github.com/qlik-oss/nebula.js/commit/d675452355725f533eee581ce8d1018dc429ea3d))
+- **deps:** update minor and patch ([#1649](https://github.com/qlik-oss/nebula.js/issues/1649)) ([cd22432](https://github.com/qlik-oss/nebula.js/commit/cd22432c37ddfffec19109eb6366adfcac32a36c))
+- **deps:** update minor and patch ([#1655](https://github.com/qlik-oss/nebula.js/issues/1655)) ([123f2ef](https://github.com/qlik-oss/nebula.js/commit/123f2ef95b5491e789015a62f6bce048d20984fb))
+- **deps:** update minor and patch ([#1660](https://github.com/qlik-oss/nebula.js/issues/1660)) ([cb43faa](https://github.com/qlik-oss/nebula.js/commit/cb43faa739a4a2e06b178dcd22c90092a36276d0))
+
+## [5.8.1](https://github.com/qlik-oss/nebula.js/compare/v5.8.0...v5.8.1) (2024-11-23)
+
+**Note:** Version bump only for package @nebula.js/cli-sense
+
+# [5.8.0](https://github.com/qlik-oss/nebula.js/compare/v5.7.1...v5.8.0) (2024-11-18)
+
+**Note:** Version bump only for package @nebula.js/cli-sense
+
+## [5.7.1](https://github.com/qlik-oss/nebula.js/compare/v5.7.0...v5.7.1) (2024-10-15)
+
+**Note:** Version bump only for package @nebula.js/cli-sense
+
+# [5.7.0](https://github.com/qlik-oss/nebula.js/compare/v5.6.0...v5.7.0) (2024-10-15)
+
+**Note:** Version bump only for package @nebula.js/cli-sense
+
+# [5.6.0](https://github.com/qlik-oss/nebula.js/compare/v5.5.0...v5.6.0) (2024-10-08)
+
+**Note:** Version bump only for package @nebula.js/cli-sense
+
+# [5.5.0](https://github.com/qlik-oss/nebula.js/compare/v5.4.2...v5.5.0) (2024-09-30)
+
+**Note:** Version bump only for package @nebula.js/cli-sense
+
 ## [5.4.2](https://github.com/qlik-oss/nebula.js/compare/v5.4.1...v5.4.2) (2024-08-27)
 
 **Note:** Version bump only for package @nebula.js/cli-sense

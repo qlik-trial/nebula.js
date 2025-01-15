@@ -15,27 +15,39 @@ import More from './More';
 const MIN_WIDTH = 120;
 const MIN_WIDTH_MORE = 72;
 
-function collect(qSelectionObject, fields, state = '$') {
-  qSelectionObject.qSelections.forEach((selection) => {
-    const name = selection.qField;
-    const field = (fields[name] = fields[name] || { name, states: [], selections: [] }); // eslint-disable-line
-    if (field.states.indexOf(state) === -1) {
-      field.states.push(state);
-      field.selections.push(selection);
-    }
-  });
-}
-
 function getItems(layout) {
   if (!layout) {
     return [];
   }
   const fields = {};
+
+  // There is one qSelectionObject for the default state $,
+  // and an array of one qSelectionObject for each alternate state.
+  function collectFields(qSelectionObject, state) {
+    qSelectionObject.qSelections.forEach((selection) => {
+      const name = selection.qField;
+      let currentField = fields[name];
+      if (currentField === undefined) {
+        currentField = {
+          name,
+          label:
+            selection.qDimensionReferences?.find((element) => element.qLabel)?.qLabel ||
+            selection.qReadableName ||
+            name,
+          states: [],
+          selections: [],
+        };
+        fields[name] = currentField;
+      }
+      currentField.states.push(state);
+      currentField.selections.push(selection);
+    });
+  }
   if (layout.qSelectionObject) {
-    collect(layout.qSelectionObject, fields);
+    collectFields(layout.qSelectionObject, '$');
   }
   if (layout.alternateStates) {
-    layout.alternateStates.forEach((s) => collect(s.qSelectionObject, fields, s.stateName));
+    layout.alternateStates.forEach((s) => collectFields(s.qSelectionObject, s.stateName));
   }
   return Object.keys(fields)
     .map((key) => fields[key])

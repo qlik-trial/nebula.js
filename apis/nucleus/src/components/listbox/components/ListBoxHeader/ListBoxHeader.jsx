@@ -67,6 +67,7 @@ export default function ListBoxHeader({
   keyboard,
   autoConfirm,
   app,
+  disablePortal,
 }) {
   const [isToolbarDetached, setIsToolbarDetached] = useState(showDetachedToolbarOnly);
   const [isLocked, setLocked] = useState(layout?.qListObject?.qDimensionInfo?.qLocked);
@@ -177,6 +178,7 @@ export default function ListBoxHeader({
     selections,
     keyboard,
     autoConfirm,
+    disablePortal,
   });
 
   const actionsToolbar = <ActionsToolbar isRtl={isRtl} layout={layout} {...toolbarProps} />;

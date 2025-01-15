@@ -8,6 +8,7 @@ export default function getListboxActionProps({
   selections,
   keyboard,
   autoConfirm,
+  disablePortal,
 }) {
   return {
     autoConfirm,
@@ -28,6 +29,7 @@ export default function getListboxActionProps({
         boxShadow: '0 12px 8px -8px rgba(0, 0, 0, 0.2)',
         minWidth: '250px',
       },
+      disablePortal,
     },
     selections: {
       show: showToolbar,

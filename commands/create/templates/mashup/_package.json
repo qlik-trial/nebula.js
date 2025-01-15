@@ -14,6 +14,7 @@
     "@nebula.js/stardust": "<%= nebulaVersion %>",
     "@nebula.js/sn-bar-chart": "^1.x",
     "@qlik/api": "^1.17.0",
-    "parcel": "2.12.0"
+    "enigma.js": "^2.6.3",
+    "parcel": "2.13.3"
   }
 }

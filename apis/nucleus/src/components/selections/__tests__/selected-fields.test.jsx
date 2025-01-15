@@ -215,4 +215,33 @@ describe('<SelectedFields />', () => {
     expect(() => renderer.root.findByType(OneField)).toThrow();
     expect(() => renderer.root.findByType(MultiState)).toThrow();
   });
+
+  test('should pass dimension label or `readable name` to the `<OneField />` rendering', async () => {
+    const data = {
+      qSelectionObject: {
+        qSelections: [
+          {
+            qField: 'my-field0',
+          },
+          {
+            qField: 'my-field1',
+            qDimensionReferences: [{ qId: 'id-of-associated-dimension', qLabel: 'my-dim-label' }],
+          },
+          {
+            qField: 'my-field2',
+            qReadableName: 'my-readable-name',
+          },
+        ],
+      },
+    };
+    useLayout.mockReturnValue([data]);
+    await render();
+    const oneFields = renderer.root.findAllByType(OneField);
+    expect(oneFields[0].props.field.name).toBe('my-field0');
+    expect(oneFields[0].props.field.label).toBe('my-field0');
+    expect(oneFields[1].props.field.name).toBe('my-field1');
+    expect(oneFields[1].props.field.label).toBe('my-dim-label');
+    expect(oneFields[2].props.field.name).toBe('my-field2');
+    expect(oneFields[2].props.field.label).toBe('my-readable-name');
+  });
 });

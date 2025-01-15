@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useRootContext } from '../contexts/RootContext';
 import { getConnectionInfo } from '../connect';
 import { checkIfAuthorized, getAppList } from '../utils';

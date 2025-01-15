@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ListBoxInline from './ListBoxInline';
 import useObjectSelections from '../../hooks/useObjectSelections';
@@ -54,58 +54,62 @@ export const getOptions = (usersOptions = {}) => {
   return squashedOptions;
 };
 
-function ListBoxWrapper({ app, fieldIdentifier, qId, stateName, element, options, renderedCallback, flags }) {
-  const { isExistingObject, hasExternalSelectionsApi } = identify({ qId, options });
+const ListBoxWrapper = forwardRef(
+  ({ app, fieldIdentifier, qId, stateName, element, initialOptions, renderedCallback }, ref) => {
+    const [options, setOptions] = useState(initialOptions);
+    const { isExistingObject, hasExternalSelectionsApi } = identify({ qId, options });
 
-  if (!isExistingObject) {
-    Object.assign(options, {
-      frequencyMode: getFrequencyModeLetter(options.frequencyMode), // stick to letter option hereafter
-    });
-  }
-
-  const [changeCount, setChangeCount] = useState(0);
-
-  useEffect(() => {
-    if (changeCount) {
-      throw new Error('Source or selection Api can not change after a listbox has been mounted');
+    if (!isExistingObject) {
+      Object.assign(options, {
+        frequencyMode: getFrequencyModeLetter(options.frequencyMode), // stick to letter option hereafter
+      });
     }
 
-    setChangeCount(changeCount + 1);
-  }, [isExistingObject, hasExternalSelectionsApi]);
+    const [changeCount, setChangeCount] = useState(0);
 
-  const model = isExistingObject
-    ? useExistingModel({ app, qId, options })
-    : useOnTheFlyModel({ app, fieldIdentifier, stateName, options });
+    useEffect(() => {
+      if (changeCount) {
+        throw new Error('Source or selection Api can not change after a listbox has been mounted');
+      }
 
-  const elementRef = useRef(element);
+      setChangeCount(changeCount + 1);
+    }, [isExistingObject, hasExternalSelectionsApi]);
 
-  const selections = hasExternalSelectionsApi
-    ? options.selectionsApi
-    : useObjectSelections(
-        app,
+    const model = isExistingObject
+      ? useExistingModel({ app, qId, options })
+      : useOnTheFlyModel({ app, fieldIdentifier, stateName, options });
+
+    const elementRef = useRef(element);
+
+    const selections = hasExternalSelectionsApi
+      ? options.selectionsApi
+      : useObjectSelections(
+          app,
+          model,
+          [elementRef, '.njs-action-toolbar-more', '.njs-action-toolbar-popover'],
+          options
+        )[0];
+
+    const opts = useMemo(
+      () => ({
+        ...options,
+        selections,
         model,
-        [elementRef, '.njs-action-toolbar-more', '.njs-action-toolbar-popover'],
-        options
-      )[0];
+        app,
+        renderedCallback,
+      }),
+      [options, selections, model, app]
+    );
 
-  const opts = useMemo(
-    () => ({
-      ...options,
-      selections,
-      model,
-      app,
-      renderedCallback,
-      flags,
-    }),
-    [options, selections, model, app]
-  );
+    useImperativeHandle(ref, () => ({ setOptions: (newOptions) => setOptions(newOptions) }), []);
 
-  if (!selections || !model) {
-    return null;
+    if (!selections || !model) {
+      return null;
+    }
+
+    return <ListBoxInline options={opts} />;
   }
-
-  return <ListBoxInline options={opts} />;
-}
+);
 
 export default function ListBoxPortal({
   element,
@@ -115,20 +119,22 @@ export default function ListBoxPortal({
   stateName = '$',
   options = {},
   renderedCallback,
-  flags,
 }) {
-  return ReactDOM.createPortal(
+  const listRef = React.createRef();
+  const portal = ReactDOM.createPortal(
     <ListBoxWrapper
+      ref={listRef}
       app={app}
       element={element}
       fieldIdentifier={fieldIdentifier}
       qId={qId}
       stateName={stateName}
-      options={options}
+      initialOptions={options}
       renderedCallback={renderedCallback}
-      flags={flags}
     />,
     element,
     uid()
   );
+
+  return [portal, listRef];
 }

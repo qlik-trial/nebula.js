@@ -1,4 +1,6 @@
-const config = {
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
   reporter: [
     ['dot'],
     ['html', { outputFolder: './reports/html' }],
@@ -11,7 +13,7 @@ const config = {
     toMatchSnapshot: { threshold: 0.00025 },
     timeout: 30000,
   },
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   use: {
     browserName: 'chromium',
     actionTimeout: 30000,
@@ -21,6 +23,4 @@ const config = {
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-};
-
-module.exports = config;
+});

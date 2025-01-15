@@ -399,6 +399,40 @@ export function useMemo(fn, deps) {
 }
 
 /**
+ * Reference object returned from useRef
+ * @interface Ref
+ * @template R
+ * @property {R} current Current value
+ */
+
+/**
+ * Creates a reference to a value not needed for rendering
+ *
+ * While Nebula does not have a virtual DOM, it is still useful
+ * to have a reference to an object that is retained across
+ * renders and in it self does not trigger a render.
+ * @entry
+ * @template R
+ * @param {R} initialValue - The initial value.
+ * @returns {Ref<R>} An object with the current value
+ * @example
+ * import { useRef } from '@nebula.js/stardust';
+ * // ...
+ * // initiate with simple value
+ * const timesRendered = useRef(0);
+ *
+ * useEffect(() => {
+ *  render(layout);
+ *  // increments the render counter, a useState would trigger another render
+ *  timesRendered.current += 1;
+ * },[layout]);
+ *
+ */
+export function useRef(initialValue) {
+  return useMemo(() => ({ current: initialValue }), []);
+}
+
+/**
  * Runs a callback function when a dependent changes.
  *
  * Useful for async operations that otherwise cause no side effects.

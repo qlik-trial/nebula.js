@@ -28,4 +28,9 @@ describe('luminance', () => {
     d3ColorMock.mockReturnValue({ rgb: () => ({ r: 255, g: 102, b: 51 }) });
     expect(luminance('#ff6633')).toBe(0.31002);
   });
+
+  test('for #00028 should break and return 0', () => {
+    d3ColorMock.mockReturnValue(null);
+    expect(luminance('#00028')).toBe(0);
+  });
 });

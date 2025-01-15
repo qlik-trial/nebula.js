@@ -72,6 +72,7 @@ function ActionsToolbar({
     alignTo: null,
     popoverProps: {},
     popoverPaperStyle: {},
+    disablePortal: true,
   },
   popover = {
     show: false,
@@ -207,6 +208,7 @@ function ActionsToolbar({
           popoverProps={more.popoverProps}
           popoverPaperStyle={more.popoverPaperStyle}
           onCloseOrActionClick={handleCloseShowMoreItems}
+          disablePortal={more.disablePortal}
         />
       )}
     </Grid>

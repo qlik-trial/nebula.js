@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.9.0](https://github.com/qlik-oss/nebula.js/compare/v5.8.1...v5.9.0) (2025-01-13)
+
+### Bug Fixes
+
+- **deps:** update minor and patch ([#1649](https://github.com/qlik-oss/nebula.js/issues/1649)) ([cd22432](https://github.com/qlik-oss/nebula.js/commit/cd22432c37ddfffec19109eb6366adfcac32a36c))
+- **deps:** update minor and patch ([#1655](https://github.com/qlik-oss/nebula.js/issues/1655)) ([123f2ef](https://github.com/qlik-oss/nebula.js/commit/123f2ef95b5491e789015a62f6bce048d20984fb))
+- **deps:** update minor and patch ([#1660](https://github.com/qlik-oss/nebula.js/issues/1660)) ([cb43faa](https://github.com/qlik-oss/nebula.js/commit/cb43faa739a4a2e06b178dcd22c90092a36276d0))
+- move options into **DO_NOT_USE** ([#1648](https://github.com/qlik-oss/nebula.js/issues/1648)) ([6a25b54](https://github.com/qlik-oss/nebula.js/commit/6a25b5439eb3b1de8441c7c4ec3d6d7b2461e6be))
+
+### Features
+
+- update listbox options ([#1646](https://github.com/qlik-oss/nebula.js/issues/1646)) ([ce9424f](https://github.com/qlik-oss/nebula.js/commit/ce9424f3b4cff204b21518b19accda3c2aa48605))
+
+## [5.8.1](https://github.com/qlik-oss/nebula.js/compare/v5.8.0...v5.8.1) (2024-11-23)
+
+**Note:** Version bump only for package @nebula.js/nucleus
+
+# [5.8.0](https://github.com/qlik-oss/nebula.js/compare/v5.7.1...v5.8.0) (2024-11-18)
+
+### Features
+
+- add onError and onRender callbacks ([#1636](https://github.com/qlik-oss/nebula.js/issues/1636)) ([639204d](https://github.com/qlik-oss/nebula.js/commit/639204d6c1c6694c6f5b620463159d5d9f0569ce))
+
+## [5.7.1](https://github.com/qlik-oss/nebula.js/compare/v5.7.0...v5.7.1) (2024-10-15)
+
+### Features
+
+- support tooltip for cell title, subtitle, and footer ([#1629](https://github.com/qlik-oss/nebula.js/issues/1629)) ([6f73fa4](https://github.com/qlik-oss/nebula.js/commit/6f73fa484ea95f8d18db3348c7a3ccbb0a0f93e1))
+
+# [5.7.0](https://github.com/qlik-oss/nebula.js/compare/v5.6.0...v5.7.0) (2024-10-15)
+
+### Features
+
+- add host config to config and galaxy ([#1628](https://github.com/qlik-oss/nebula.js/issues/1628)) ([71e053b](https://github.com/qlik-oss/nebula.js/commit/71e053bff79f54f21873d2fff924f570ac36d96c))
+
+# [5.6.0](https://github.com/qlik-oss/nebula.js/compare/v5.5.0...v5.6.0) (2024-10-08)
+
+### Bug Fixes
+
+- use color utils from qlik-chart-modules for color contrast ([#1625](https://github.com/qlik-oss/nebula.js/issues/1625)) ([e69a8d9](https://github.com/qlik-oss/nebula.js/commit/e69a8d94ade1e4642210205dc0dbf22616769051))
+
+### Features
+
+- dimension labels in selection bar ([#1620](https://github.com/qlik-oss/nebula.js/issues/1620)) ([15e5ccd](https://github.com/qlik-oss/nebula.js/commit/15e5ccdfb26de416577460dca253116768603ec1))
+
+# [5.5.0](https://github.com/qlik-oss/nebula.js/compare/v5.4.2...v5.5.0) (2024-09-30)
+
+### Bug Fixes
+
+- correct type for load fallback function in embed config ([#1619](https://github.com/qlik-oss/nebula.js/issues/1619)) ([081c9c7](https://github.com/qlik-oss/nebula.js/commit/081c9c7496601495054e68705c4bfec70081732b))
+- use correct green color for selected ([#1597](https://github.com/qlik-oss/nebula.js/issues/1597)) ([e26f580](https://github.com/qlik-oss/nebula.js/commit/e26f580a1d1cbcbbc967331bc8c7221de9bf563c))
+
+### Features
+
+- dimension labels in selection bar ([#1617](https://github.com/qlik-oss/nebula.js/issues/1617)) ([73ea8f4](https://github.com/qlik-oss/nebula.js/commit/73ea8f4a9b7f6fe654eeb266285d12c3435d09a4))
+- disable portal option ([#1613](https://github.com/qlik-oss/nebula.js/issues/1613)) ([3cdef85](https://github.com/qlik-oss/nebula.js/commit/3cdef85a7b690250dad8a25e0650a9ea9bf2e572))
+
 ## [5.4.2](https://github.com/qlik-oss/nebula.js/compare/v5.4.1...v5.4.2) (2024-08-27)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 import React from 'react';
 import Step from '@mui/material/Step';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { ThemeWrapper } from '../ThemeWrapper';
 import { StepperWrapper, CustomStepLabel } from './styles';
 import { steps } from '../../constants/connectionSteps';
