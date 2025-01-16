@@ -165,11 +165,11 @@ export function runSnaps(component, layout) {
   return Promise.resolve();
 }
 
-export function runMenu(component, menu, event, menuBuilder) {
+export function runMenu(component, menu, event, menuBuilder, features, context) {
   try {
-    return Promise.all(component.__hooks.menus.map((h) => Promise.resolve(h.fn(menu, event, menuBuilder)))).then(
-      (menus) => menus[menus.length - 1]
-    );
+    return Promise.all(
+      component.__hooks.menus.map((h) => Promise.resolve(h.fn(menu, event, menuBuilder, features, context)))
+    ).then((menus) => menus[menus.length - 1]);
   } catch (e) {
     console.error(e);
   }

@@ -203,6 +203,9 @@ export default function viz({
         cellRef.current.setModel(newModel);
       }
     },
+    async getContextMenu(menu, event, menuBuilder, features, context) {
+      return cellRef.current.getContextMenu(menu, event, menuBuilder, features, context);
+    },
     /**
      * Listens to custom events from inside the visualization. See useEmitter
      * @param {string} eventName Event name to listen to

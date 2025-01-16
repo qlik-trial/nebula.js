@@ -212,8 +212,8 @@ function createWithHooks(generator, opts, galaxy) {
     setSnapshotData(layout) {
       return generator.component.runSnaps(this, layout);
     },
-    onContextMenu(menu, event, menuBuilder) {
-      return generator.component.runMenu(this, menu, event, menuBuilder);
+    onContextMenu(menu, event, menuBuilder, features, context) {
+      return generator.component.runMenu(this, menu, event, menuBuilder, features, context);
     },
     focus() {
       generator.component.focus(this);
