@@ -1,25 +1,40 @@
 /* eslint-disable */
-import { AuthType } from '@qlik/sdk';
-import embed from './configure';
-import connect from './connect';
+import { auth, qix } from '@qlik/api';
+import { embed } from '@nebula.js/stardust';
+import barchart from '@nebula.js/sn-bar-chart';
 
 async function run() {
-  const app = await connect({
-    connectionType: '<AuthType.SOME_CONNECTION_TYPE>',
-    url: '<URL>',
-    appId: '<App id>',
+  const appId = '<App id>';
+  // https://github.com/qlik-oss/qlik-api-ts/blob/main/docs/authentication.md
+  const hostConfig = {
+    authType: '<AuthenticationType: ex "oauth2" or "cookie"',
+    host: '<URL>',
+    // connection config based on authType
+    webIntegrationId: '<Qlik web integration id>', // cookie
+    clientId: '<Qlik OAuth client id>', // oauth2
+    accessTokenStorage: 'session', // for oauth2
+  };
 
-    // you should use only one of below keys
-    // based on your `connectionType`
-    clientId: '<Qlik OAuth client id>',
-    webIntegrationId: '<Qlik web integration id>',
+  auth.setDefaultHostConfig(hostConfig);
+  const appSession = qix.openAppSession(appId);
+  const app = await appSession.getDoc();
+
+  const nebula = embed(app, {
+    context: {
+      theme: 'light',
+      language: 'en-US',
+    },
+    types: [
+      {
+        name: 'barchart',
+        load: () => Promise.resolve(barchart),
+      },
+    ],
   });
 
-  const n = embed(app);
+  (await nebula.selections()).mount(document.querySelector('.toolbar'));
 
-  (await n.selections()).mount(document.querySelector('.toolbar'));
-
-  // n.render({});
+  // nebula.render({ element: document.querySelector('.object'), id: "" });
 }
 
 run();

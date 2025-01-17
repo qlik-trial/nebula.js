@@ -13,7 +13,7 @@
   "dependencies": {
     "@nebula.js/stardust": "<%= nebulaVersion %>",
     "@nebula.js/sn-bar-chart": "^1.x",
-    "@qlik/sdk": "^0.12.0",
+    "@qlik/api": "^1.17.0",
     "enigma.js": "^2.6.3",
     "parcel": "2.13.3"
   }

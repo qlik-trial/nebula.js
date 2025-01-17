@@ -3,7 +3,7 @@ import { act } from '@testing-library/react';
 import fs from 'fs';
 import getPage from '../setup';
 import startServer, { getPaths } from '../server';
-import { execSequence } from '../testUtils';
+import execSequence from '../testUtils';
 
 const paths = getPaths('listbox/__fixtures__');
 
