@@ -1,5 +1,5 @@
 /* eslint-disable */
-import qlikApi from '@qlik/api';
+import { auth, qix } from '@qlik/api';
 import { embed } from '@nebula.js/stardust';
 import barchart from '@nebula.js/sn-bar-chart';
 
@@ -15,8 +15,8 @@ async function run() {
     accessTokenStorage: 'session', // for oauth2
   };
 
-  qlikApi.auth.setDefaultHostConfig(hostConfig);
-  const appSession = qlikApi.qix.openAppSession(appId);
+  auth.setDefaultHostConfig(hostConfig);
+  const appSession = qix.openAppSession(appId);
   const app = await appSession.getDoc();
 
   const nebula = embed(app, {
