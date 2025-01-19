@@ -14,7 +14,7 @@
     "@nebula.js/theme": "^5.9.0",
     "@nebula.js/ui": "^5.9.0",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.1.0",
+    "@testing-library/react": "^16.2.0",
     "extend": "3.0.2",
     "node-event-emitter": "0.0.1",
     "qlik-chart-modules": "0.82.0",
